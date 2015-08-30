@@ -39,6 +39,8 @@ Linux : `<tomcat-installation-folder>/bin/startup.sh`
 
 Now the application is up and running.
 
+**NOTE:** Be aware of the package name that will be deployed, because the same name of the package will be the name to access the application on Apacha Tomcat. Example: If the package deployed is **router-0.0.1-SNAPSHOT.war** the base url to access the application locally will be **http://localhost:8080/router-0.0.1-SNAPSHOT**.
+
 # Webservice Documentation
 All webservices are provided as RESTful webservices.
 
@@ -56,7 +58,7 @@ A trace represent the distance between two points.
   * distance: Distance between the two informed points, type: **Double**.
 
 Example:
-`http://localhost:8080/trace/rs/trace?origin=A&destination=B&distance=10`
+`http://localhost:8080/router/rs/trace?origin=A&destination=B&distance=10`
 
 #### Update
 * HTTP Mehotd: POST
@@ -66,7 +68,7 @@ Example:
   * distance: Distance between the two informed points, type: **Double**.
 
 Example:
-`http://localhost:8080/trace/rs/trace?origin=A&destination=B&distance=12`
+`http://localhost:8080/router/rs/trace?origin=A&destination=B&distance=12`
 
 ## Route
 A route represents a way to connect two points.
