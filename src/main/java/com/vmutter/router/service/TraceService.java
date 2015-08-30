@@ -1,5 +1,7 @@
 package com.vmutter.router.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +23,9 @@ public class TraceService {
 
         t.setDistance(trace.getDistance());
         return traceDAO.update(t);
+    }
+
+    public List<Trace> findAll() {
+        return traceDAO.findAll();
     }
 }

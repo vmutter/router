@@ -6,14 +6,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+/**
+ * 
+ * Entity representating the distance between two nodes.
+ * 
+ * @author vmutter
+ *
+ */
 @Entity
 @Table(name = "trace")
-@NamedQueries(value = { @NamedQuery(name = Trace.FIND_BY_ORIGIN_DESTINATION, query = "SELECT t FROM Trace t WHERE t.origin = :origin AND t.destination = :destination") })
+@NamedQueries(value = {
+        @NamedQuery(name = Trace.FIND_ALL, query = "SELECT t FROM Trace t"),
+        @NamedQuery(name = Trace.FIND_BY_ORIGIN_DESTINATION, query = "SELECT t FROM Trace t WHERE t.origin = :origin AND t.destination = :destination") })
 public class Trace {
+
+    public static final String FIND_ALL = "findTraceAll";
 
     public static final String FIND_BY_ORIGIN_DESTINATION = "findTraceByOriginDestination";
 
@@ -22,6 +35,13 @@ public class Trace {
     }
 
     public Trace(String origin, String destination, Double distance) {
+        super();
+        this.origin = new Node(null, origin);
+        this.destination = new Node(null, destination);
+        this.distance = distance;
+    }
+
+    public Trace(Node origin, Node destination, Double distance) {
         super();
         this.origin = origin;
         this.destination = destination;
@@ -32,9 +52,13 @@ public class Trace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String origin;
+    @ManyToOne
+    @JoinColumn(name = "origin_id")
+    private Node origin;
 
-    private String destination;
+    @ManyToOne
+    @JoinColumn(name = "destination_id")
+    private Node destination;
 
     private Double distance;
 
@@ -46,19 +70,19 @@ public class Trace {
         this.id = id;
     }
 
-    public String getOrigin() {
+    public Node getOrigin() {
         return origin;
     }
 
-    public void setOrigin(String origin) {
+    public void setOrigin(Node origin) {
         this.origin = origin;
     }
 
-    public String getDestination() {
+    public Node getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(Node destination) {
         this.destination = destination;
     }
 

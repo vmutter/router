@@ -9,10 +9,11 @@ import javax.persistence.Persistence;
 
 import org.springframework.stereotype.Repository;
 
+import com.vmutter.router.model.Node;
 import com.vmutter.router.model.Trace;
 
 @Repository
-public class TraceDAO {
+public class NodeDAO {
 
     private EntityManagerFactory emf;
 
@@ -30,12 +31,12 @@ public class TraceDAO {
         return em;
     }
 
-    public void insert(Trace trace) {
+    public void insert(Node node) {
         EntityTransaction tx = getEntityManager().getTransaction();
 
         try {
             tx.begin();
-            em.persist(trace);
+            em.persist(node);
         } catch (Exception e) {
             tx.rollback();
         } finally {
@@ -43,23 +44,6 @@ public class TraceDAO {
             em.close();
             emf.close();
         }
-    }
-
-    public Trace update(Trace trace) {
-        EntityTransaction tx = getEntityManager().getTransaction();
-
-        try {
-            tx.begin();
-            return em.merge(trace);
-        } catch (Exception e) {
-            tx.rollback();
-        } finally {
-            tx.commit();
-            em.close();
-            emf.close();
-        }
-
-        return null;
     }
 
     public Trace findById(Long id) {
@@ -78,14 +62,12 @@ public class TraceDAO {
         return null;
     }
 
-    public Trace findByOriginDestination(Trace trace) {
+    public Node findByName(String name) {
         EntityTransaction tx = getEntityManager().getTransaction();
 
         try {
             tx.begin();
-            return em.createNamedQuery(Trace.FIND_BY_ORIGIN_DESTINATION, Trace.class)
-                    .setParameter("origin", trace.getOrigin()).setParameter("destination", trace.getDestination())
-                    .getSingleResult();
+            return em.createNamedQuery(Node.FIND_BY_NAME, Node.class).setParameter("name", name).getSingleResult();
         } catch (Exception e) {
             tx.rollback();
         } finally {
@@ -96,12 +78,12 @@ public class TraceDAO {
         return null;
     }
 
-    public List<Trace> findAll() {
+    public List<Node> findAll() {
         EntityTransaction tx = getEntityManager().getTransaction();
 
         try {
             tx.begin();
-            return em.createNamedQuery(Trace.FIND_ALL, Trace.class).getResultList();
+            return em.createNamedQuery(Node.FIND_ALL, Node.class).getResultList();
         } catch (Exception e) {
             tx.rollback();
         } finally {
