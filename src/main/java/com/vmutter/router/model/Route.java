@@ -1,15 +1,20 @@
 package com.vmutter.router.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "router")
+@Table(name = "route")
 public class Route {
 
     @Id
@@ -23,6 +28,12 @@ public class Route {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    public String name;
+    
+    @OneToMany(fetch=FetchType.EAGER)
+    @JoinTable(name="route_trace", joinColumns = @JoinColumn( name="route_id"), inverseJoinColumns = @JoinColumn( name="trace_id"))
+    private List<Trace> traces;
 
     @Override
     public int hashCode() {
