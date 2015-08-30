@@ -3,6 +3,7 @@ package com.vmutter.router.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
@@ -25,7 +26,11 @@ public class NodeDAO {
     }
 
     public Node findByName(String name) {
-        return em.createNamedQuery(Node.FIND_BY_NAME, Node.class).setParameter("name", name).getSingleResult();
+        try {
+            return em.createNamedQuery(Node.FIND_BY_NAME, Node.class).setParameter("name", name).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
     public List<Node> findAll() {

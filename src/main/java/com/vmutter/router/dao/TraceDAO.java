@@ -3,11 +3,14 @@ package com.vmutter.router.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.vmutter.router.model.Node;
 import com.vmutter.router.model.Trace;
 
 @Repository
@@ -17,7 +20,21 @@ public class TraceDAO {
     @PersistenceContext
     private EntityManager em;
 
+    @Autowired
+    private NodeDAO nodeDAO;
+
     public void insert(Trace trace) {
+        Node nodeOrigin = nodeDAO.findByName(trace.getOrigin().getName());
+        Node nodeDest = nodeDAO.findByName(trace.getDestination().getName());
+
+        if (nodeOrigin != null) {
+            trace.setOrigin(nodeOrigin);
+        }
+
+        if (nodeDest != null) {
+            trace.setDestination(nodeDest);
+        }
+
         em.persist(trace);
     }
 
@@ -30,9 +47,13 @@ public class TraceDAO {
     }
 
     public Trace findByOriginDestination(Trace trace) {
-        return em.createNamedQuery(Trace.FIND_BY_ORIGIN_DESTINATION, Trace.class)
-                .setParameter("origin", trace.getOrigin()).setParameter("destination", trace.getDestination())
-                .getSingleResult();
+        try {
+            return em.createNamedQuery(Trace.FIND_BY_ORIGIN_DESTINATION, Trace.class)
+                    .setParameter("originName", trace.getOrigin().getName())
+                    .setParameter("destinationName", trace.getDestination().getName()).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
     public List<Trace> findAll() {

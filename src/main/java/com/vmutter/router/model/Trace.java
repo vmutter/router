@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Table(name = "trace")
 @NamedQueries(value = {
         @NamedQuery(name = Trace.FIND_ALL, query = "SELECT t FROM Trace t"),
-        @NamedQuery(name = Trace.FIND_BY_ORIGIN_DESTINATION, query = "SELECT t FROM Trace t WHERE t.origin = :origin AND t.destination = :destination") })
+        @NamedQuery(name = Trace.FIND_BY_ORIGIN_DESTINATION, query = "SELECT t FROM Trace t WHERE t.origin.name = :originName AND t.destination.name = :destinationName") })
 public class Trace {
 
     public static final String FIND_ALL = "findTraceAll";

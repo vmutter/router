@@ -6,10 +6,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.vmutter.router.exception.RouterException;
 import com.vmutter.router.model.Trace;
 import com.vmutter.router.service.TraceService;
 
@@ -22,23 +24,35 @@ public class TraceRS {
 
     @PUT
     @Produces(MediaType.TEXT_PLAIN)
-    public String add(@QueryParam("origin") String origin, @QueryParam("destination") String destination,
+    public Response add(@QueryParam("origin") String origin, @QueryParam("destination") String destination,
             @QueryParam("distance") Double distance) {
-        Trace trace = new Trace(origin, destination, distance);
+        try {
+            Trace trace = new Trace(origin, destination, distance);
 
-        traceService.insert(trace);
+            traceService.insert(trace);
 
-        return "ok";
+            return Response.ok().build();
+        } catch (RouterException re) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(re.getMessage()).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String update(@QueryParam("origin") String origin, @QueryParam("destination") String destination,
+    public Response update(@QueryParam("origin") String origin, @QueryParam("destination") String destination,
             @QueryParam("distance") Double distance) {
-        Trace trace = new Trace(origin, destination, distance);
+        try {
+            Trace trace = new Trace(origin, destination, distance);
 
-        traceService.update(trace);
+            traceService.update(trace);
 
-        return "ok";
+            return Response.ok().build();
+        } catch (RouterException re) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(re.getMessage()).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

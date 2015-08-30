@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.vmutter.router.model.Graph;
 import com.vmutter.router.model.Node;
 import com.vmutter.router.model.Trace;
+import com.vmutter.router.pojo.Graph;
 
 /**
  * Dijkstra's Algorithm simple implementation, no optimization made.

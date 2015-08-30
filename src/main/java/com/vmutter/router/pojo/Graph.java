@@ -1,6 +1,9 @@
-package com.vmutter.router.model;
+package com.vmutter.router.pojo;
 
 import java.util.List;
+
+import com.vmutter.router.model.Node;
+import com.vmutter.router.model.Trace;
 
 /**
  * Simple POJO representing a graph of nodes and traces.

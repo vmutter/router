@@ -11,9 +11,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import com.vmutter.router.model.Graph;
 import com.vmutter.router.model.Node;
 import com.vmutter.router.model.Trace;
+import com.vmutter.router.pojo.Graph;
 
 /**
  * Test for the Dijkstra's Algorithm implementation.
@@ -63,6 +63,6 @@ public class DijkstraAlgorithmTest {
         assertNotNull(path);
         assertEquals("A", path.get(0).getName());
         assertEquals("B", path.get(1).getName());
-        assertEquals("C", path.get(2).getName());
+        assertEquals("D", path.get(2).getName());
     }
 }
