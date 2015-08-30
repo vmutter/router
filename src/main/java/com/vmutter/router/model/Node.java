@@ -32,6 +32,10 @@ public class Node {
 
     private String name;
 
+    public Node() {
+        super();
+    }
+
     public Node(String name) {
         super();
         this.name = name;
